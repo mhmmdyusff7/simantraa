@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Livewire\Admin\StatusController;
+use App\Livewire\Admin\ManajemenController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\DashboardController;
 use App\Livewire\Admin\DataOpdController;
@@ -21,6 +21,5 @@ Livewire::setUpdateRoute(function ($handle) {
 
 // admin dashboard controller
 Route::get('admin/dashboard', DashboardController::class);
-Route::get('admin/status', StatusController::class);
-
+Route::get('admin/manajemen_jaringan', ManajemenController::class);
 Route::get('admin/data_opd', DataOpdController::class);

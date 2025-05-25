@@ -4,7 +4,7 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 
-class StatusController extends Component
+class ManajemenController extends Component
 {
     public $data = [];
 
@@ -24,6 +24,6 @@ class StatusController extends Component
     public function render(){
 
         
-        return view('admin.status.index');
+        return view('admin.manajemen_jaringan.index');
     }
 }

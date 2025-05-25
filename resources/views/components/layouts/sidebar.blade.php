@@ -2,7 +2,7 @@
     $dashboard = request()->is('admin/dashboard') ? 'active' : '';
     $data_opd = request()->is('admin/data_opd') ? 'active' : '';
     $metismenu = request()->is('admin/data_opd') ? 'mm-active' : '';
-    // $dashboard = request()->is('admin/dashboard') ? 'active' : '';
+    $manajemen_jaringan = request()->is('admin/manajemen_jaringan') ? 'active' : '';
     // $dashboard = request()->is('admin/dashboard') ? 'active' : '';
 @endphp
 <aside class="sidebars">
@@ -35,7 +35,7 @@
             </a>
             <ul>
                 <li>
-                    <a href="{{ url('admin/status') }}">Perangkat Jaringan</a>
+                    <a href="{{ url('admin/manajemen_jaringan') }}">Perangkat Jaringan</a>
                 </li>
             </ul>
         </li>
