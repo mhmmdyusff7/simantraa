@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply
+    bg-[#f9fbfd]
+}
+
+/* Navbars */
+.navbars {
+    @apply
+    fixed
+    z-10
+    top-0   
+    left-0
+    w-full
+    h-16
+    flex
+    items-center
+    justify-between
+    bg-gradient-to-r 
+    from-green-700 
+    to-green-500
+    shadow-[0px_0px_5px_rgba(18,23,39,0.5)]
+}
+.navbars-brand {
+    @apply
+    w-20
+    md:w-[250px]
+    h-full
+    flex
+    items-center
+    justify-center
+}
+.brand {
+    @apply
+    inline-block
+    text-xl
+    font-semibold
+    text-white
+}
+.brand-lg {
+    @apply
+    hidden
+    md:inline-block
+}
+.brand-sm {
+    @apply
+    inline-block
+    md:hidden
+}
+.navbars-box {
+    @apply
+    grow
+}
+.navbars-navigation-toggles {
+    @apply
+    w-16
+    h-16
+    flex
+    items-center
+    justify-center
+    text-2xl
+    text-slate-300
+    hover:text-white
+    focus:text-white
+    active:text-white
+}
+
+/* Sidebars */
+.sidebars {
+    @apply
+    fixed
+    -left-full
+    md:left-0
+    w-[250px]
+    h-screen
+    bg-white
+    shadow-md
+    pt-16
+}
+.sidebars-user {
+    @apply
+    flex
+    items-center
+    gap-x-2
+    h-[80px]
+    px-8
+    border-b-2
+    border-b-slate-100
+}
+.sidebars-user .user-img {
+    @apply
+    w-10
+    h-10
+    rounded-full
+    overflow-hidden
+}
+.sidebars-user .user-caption {
+    @apply
+    flex
+    flex-col
+}
+.sidebars-user .user-caption .name{
+    @apply
+    text-base
+    text-slate-500
+}
+.sidebars-user .user-caption .status{
+    @apply
+    text-sm
+    font-bold
+    text-slate-600
+}
+.sidebar-menu {
+    @apply
+    p-4
+    flex
+    flex-col
+    gap-y-[2px]
+}
+.sidebar-menu li a {
+    @apply
+    flex
+    items-center
+    gap-x-2
+    text-slate-500
+    px-4
+    py-3
+    rounded-md
+    relative
+    text-base   
+}
+
+.sidebar-menu li.active a ,
+.sidebar-menu li a:hover ,
+.sidebar-menu li a:focus {
+    @apply
+    bg-gradient-to-r from-green-700 to-green-500 text-gray-100 transition-all duration-300 ease-in-out
+}
+
+/* section-content */
+.section-content {
+    @apply
+    w-full
+    md:w-[calc(100%_-_250px)]
+    px-8
+    pt-16
+    pb-8
+    md:ml-[250px]
+    md:mr-8
+    md:mb-8
+}
+.sectioncontent-header {
+    @apply
+    min-h-[100px]
+    flex
+    items-center
+
+}
+.sectioncontentheader-title {
+    @apply
+    text-xl
+    font-semibold
+    text-slate-700
+}
+
+/* Grid */
+.row {
+    @apply
+    grid
+    grid-cols-12
+    gap-6
+}
+.col-12 {
+    @apply
+    col-span-12
+    md:col-span-12
+}
+.col-11 {
+    @apply
+    col-span-12
+    md:col-span-11
+}
+.col-10 {
+    @apply
+    col-span-12
+    md:col-span-10
+}
+.col-9 {
+    @apply
+    col-span-12
+    md:col-span-9
+}
+.col-8 {
+    @apply
+    col-span-12
+    md:col-span-8
+}
+.col-7 {
+    @apply
+    col-span-12
+    md:col-span-7
+}
+.col-6 {
+    @apply
+    col-span-12
+    md:col-span-6
+}
+.col-5 {
+    @apply
+    col-span-12
+    md:col-span-5
+}
+.col-4 {
+    @apply
+    col-span-12
+    md:col-span-4
+}
+.col-3 {
+    @apply
+    col-span-12
+    md:col-span-3
+}
+.col-2 {
+    @apply
+    col-span-12
+    md:col-span-2
+}
+
+.custom-shadow {
+    @apply
+    shadow-[0px_0px_20px_3px_rgba(0,0,0,0.04)]
+}
+
+
+/* Btn data_opd */
+.btn {
+    @apply
+    rounded-sm
+    hover:shadow-lg
+    focus:shadow-lg
+    text-sm
+    font-medium
+}
+/* btn succes */
+.btn-success {
+    @apply
+    bg-green-600
+}
+/* btn danger*/
+.btn-danger {
+    @apply
+    bg-red-500
+}
+.btn-primary {
+    @apply
+    bg-blue-500
+}
+/* btn saat aktif di showing of result */
+.pagination .page-item.active .page-link {
+    @apply
+    bg-blue-500
+    text-slate-50
+}
+/* btn saat tidak diklik */
+.pagination .page-item .page-link {
+    @apply
+    bg-slate-50
+    text-blue-500
+}
