@@ -1,6 +1,6 @@
 <div>
     <div class="sectioncontent-header justify-between">
-        <h2 class="sectioncontentheader-title">Data OPD</h2>
+        <h2 class="sectioncontentheader-title">Data OPDs</h2>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambah">
             Tambah Data
         </button>
