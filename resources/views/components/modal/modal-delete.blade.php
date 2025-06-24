@@ -10,7 +10,7 @@
                 <p>Data yang telah dihapus tidak bisa dikembalikan lagi.</p>
             </div>
             <div class="modal-footer flex items-center justify-center">
-                <button type="button" class="btn btn-success" wire:click="resetData" data-bs-dismiss="modal">BATAL</button>
+                <button type="button" class="btn btn-success"  data-bs-dismiss="modal">BATAL</button>
                 <button type="button" class="btn btn-danger" wire:click="{{ $aksi }}">TETAP HAPUS</button>
             </div>
         </div>

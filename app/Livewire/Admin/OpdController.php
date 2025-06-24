@@ -3,37 +3,37 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Attributes\Title;
-use App\Models\Pengguna;
-use GuzzleHttp\Psr7\Request;
+use App\Models\Opd;
 use Livewire\{
     Component,
     WithoutUrlPagination,
     WithPagination
 };
 
-class DataOpdController extends Component
+class OpdController extends Component
 {
     use WithPagination, WithoutUrlPagination; 
-    public $id,$nama,$telepon,$email,$original_password,$alamat;
+    public $id,$nama,$telepon,$email,$password,$alamat;
     public $cari;
-    public $limit_paginations = 10; // default nilai
+    public $limit_paginations = 5; // default nilai
 
     public $pagination = "default";
+
+
+  
 
     public function simpanData(){
       
         
         if ($this->id == null) {
-            $validated = $this->validate(Pengguna::$rules,Pengguna::$message);
-            $pengguna = new Pengguna();
-            $pengguna->nama = $this->nama;
-            $pengguna->telepon = $this->telepon;    
-            $pengguna->email = $this->email;
-            $pengguna->alamat= $this->alamat;
-            $pengguna->original_password = $this->original_password;
-            $pengguna->encrypt_password = bcrypt($this->original_password);
-            $pengguna->role = "Pengguna";
-            $simpanPengguna = $pengguna->save();
+            $validated = $this->validate(Opd::$rules,Opd::$message);
+            $opd = new Opd();
+            $opd->nama = $this->nama;
+            $opd->telepon = $this->telepon;    
+            $opd->email = $this->email;
+            $opd->alamat= $this->alamat;
+            $opd->password = bcrypt($this->password);
+            $simpanPengguna = $opd->save();
             if($simpanPengguna){
                 $this->resetPage();
                 $this->notifSuccess('Data berhasil disimpan');
@@ -42,13 +42,13 @@ class DataOpdController extends Component
                 $this->notifError('Data gagal disimpan');
             }
         }else{
-            $pengguna = Pengguna::findOrFail($this->id);
-            if($this->original_password == null){
-                $pengguna->nama = $this->nama;
-                $pengguna->telepon = $this->telepon;    
-                $pengguna->email = $this->email;
-                $pengguna->alamat= $this->alamat;
-                $simpanPengguna = $pengguna->update();
+            $opd = Opd::findOrFail($this->id);
+            if($this->password == null){
+                $opd->nama = $this->nama;
+                $opd->telepon = $this->telepon;    
+                $opd->email = $this->email;
+                $opd->alamat= $this->alamat;
+                $simpanPengguna = $opd->update();
                 if($simpanPengguna){
                     $this->resetPage();
                     $this->notifSuccess('Data berhasil diupdate');
@@ -57,13 +57,12 @@ class DataOpdController extends Component
                     $this->notifError('Data gagal diupdate');
                 }
             }else{
-                $pengguna->nama = $this->nama;
-                $pengguna->telepon = $this->telepon;    
-                $pengguna->email = $this->email;
-                $pengguna->alamat = $this->alamat;
-                $pengguna->original_password = $this->original_password;
-                $pengguna->encrypt_password = bcrypt($this->original_password);
-                $simpanPengguna = $pengguna->update();
+                $opd->nama = $this->nama;
+                $opd->telepon = $this->telepon;    
+                $opd->email = $this->email;
+                $opd->alamat = $this->alamat;
+                $opd->password = bcrypt($this->password);
+                $simpanPengguna = $opd->update();
                 if($simpanPengguna){
                     $this->resetPage();
                     $this->notifSuccess('Data berhasil diupdate');
@@ -76,16 +75,19 @@ class DataOpdController extends Component
 
         
     }
+    // ketika klik batal di btn data akan kereset
+   public function resetForm() { $this->resetData(); }
+  
 
     public function editData($id){
-        $pengguna = Pengguna::findOrFail($id);
-        $this->id = $pengguna->id;
-        $this->nama =  $pengguna->nama;
-        $this->telepon = $pengguna->telepon;
-        $this->email = $pengguna->email;
-        $this->alamat = $pengguna->alamat;
+        $opd = Opd::findOrFail($id);
+        $this->id = $opd->id;
+        $this->nama =  $opd->nama;
+        $this->telepon = $opd->telepon;
+        $this->email = $opd->email;
+        $this->alamat = $opd->alamat;
     }
-    public function hapusData(Pengguna $id)
+    public function hapusData(Opd $id)
     {
         $hapus = $id->delete();
         if($hapus){
@@ -99,23 +101,20 @@ class DataOpdController extends Component
 
     #[Title('Data OPD')] 
     public function render(){
-        $query = Pengguna::query();
+        $query = Opd::query();
 
         if (!empty($this->cari)) {
             $query->where(function ($q) {
                 $q->where('nama', 'like', '%' . $this->cari . '%')
                   ->orWhere('telepon', 'like', '%' . $this->cari . '%')
-                  ->orWhere('email', 'like', '%' . $this->cari . '%'); // sesuaikan kolom yang ingin dicari
+                  ->orWhere('email', 'like', '%' . $this->cari . '%')
+                  ->orWhere('alamat', 'like', '%' . $this->cari . '%'); 
             });
         }
-
         $data['list'] = $query->paginate($this->limit_paginations);
         return view('admin.data_opd.index', $data);
     }
 
-    public function resetData(){
-        $this->resetPage();
-    }
 
      // Reset halaman saat pencarian atau limit berubah
      public function updatingCari()
@@ -128,15 +127,19 @@ class DataOpdController extends Component
          $this->resetPage();
      }
 
-    private  function resetPage(){
+    // Reset semua properti setelah simpan/edit
+    private function resetData()
+    {
         $this->id = '';
         $this->nama = '';
         $this->telepon = '';
-        $this->email = '';
+        $this->email = '';  
         $this->alamat = '';
-        $this->original_password = '';
-        
+        $this->password = '';
+
+        $this->resetErrorBag();
     }
+
 
     private  function notifSuccess($pesan){
         $this->js("

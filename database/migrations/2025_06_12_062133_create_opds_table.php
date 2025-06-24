@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_pengguna', function (Blueprint $table) {
+        Schema::create('tb_opd', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
             $table->string('telepon');
             $table->string('email');
+            $table->string('alamat');
             $table->string('original_password');
             $table->string('encrypt_password');
-            $table->enum('role',['Super Admin','Pengguna']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_pengguna');
+        Schema::dropIfExists('tb_opd');
     }
 };
