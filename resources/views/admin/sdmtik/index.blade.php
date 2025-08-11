@@ -40,25 +40,25 @@
                                 <th class="text-center">No.</th>
                                 <th class="text-center">OPD</th>
                                 <th class="text-center">Nama SDM TIK</th>
-                                <th class="text-center">TIK Status Pegawai</th>
+                                <th class="text-center">Status Pegawai</th>
                                 <th class="text-center">Status Reviu Pegawai</th>
                                 <th class="text-center">Alasan Pindah</th>
                                 <th class="text-center">Kompetensi Pekerjaan</th>
                                 <th class="text-center">Sertifikasi</th>
-                                <th class="text-center">Aksi</th>
+                                <th class="text-center" width="100">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($list as $sdmtik)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td class="text-center">{{ $sdmtik->opd->nama ?? '-' }}</td>
-                                <td class="text-center">{{ $sdmtik->nama_sdm_tik }}</td>
-                                <td class="text-center">{{ $sdmtik->tik_status_pegawai }}</td>
+                                <td class="text-left">{{ $sdmtik->opd->nama ?? '-' }}</td>
+                                <td class="text-left">{{ $sdmtik->nama_sdm_tik }}</td>
+                                <td class="text-left">{{ $sdmtik->tik_status_pegawai }}</td>
                                 <td class="text-center">{{ $sdmtik->status_reviu_pegawai }}</td>
-                                <td class="text-center">{{ $sdmtik->alasan_pindah ?: '-' }}</td>
-                                <td class="text-center">{{ $sdmtik->kompetensi_pekerjaan }}</td>
-                                <td class="text-center">{{ $sdmtik->sertifikasi }}</td>
+                                <td class="text-left">{{ $sdmtik->alasan_pindah ?: '-' }}</td>
+                                <td class="text-left">{{ $sdmtik->kompetensi_pekerjaan }}</td>
+                                <td class="text-left">{{ $sdmtik->sertifikasi }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah" wire:click="editData({{ $sdmtik->id }})">
                                         <i class="bi bi-pencil-square"></i>
@@ -107,14 +107,13 @@
             <option value="Tetap">Tetap</option>
             <option value="Pindah">Pindah</option>
         </x-input.select_live>
-        
         @if ($status_reviu_pegawai == 'Pindah')
             <x-input.input model="alasan_pindah" label="Alasan Pindah" placeholder="Masukan alasan pindah..." />
         @endif
-        <x-input.input model="pendidikan_terakhir" label="Pendidikan Terakhir" placeholder="Masukan pendidikan terakhir..." />
+        {{-- <x-input.input model="pendidikan_terakhir" label="Pendidikan Terakhir" placeholder="Masukan pendidikan terakhir..." /> --}}
         <x-input.input model="kompetensi_pekerjaan" label="Kompetensi Pekerjaan" placeholder="Masukan kompetensi pekerjaan..." />
-        <x-input.input model="tupoksi" label="Tupoksi" placeholder="Masukan tupoksi..." />
-        <x-input.input model="pengalaman_training" label="Pengalaman Training" placeholder="Masukan pengalaman training..." />
+        {{-- <x-input.input model="tupoksi" label="Tupoksi" placeholder="Masukan tupoksi..." /> --}}
+        {{-- <x-input.input model="pengalaman_training" label="Pengalaman Training" placeholder="Masukan pengalaman training..." /> --}}
         <x-input.textarea model="sertifikasi" label="Sertifikasi" placeholder="Masukan sertifikasi..." />
    </x-modal.modal-post>
    <!-- END Modal -->

@@ -31,10 +31,10 @@ class Sdmtik extends Model
         'status_reviu_pegawai' => 'required',
         'alasan_pindah' => 'nullable',
         'pendidikan_terakhir' => 'nullable',
-        'kompetensi_pekerjaan' => 'nullable',
+        'kompetensi_pekerjaan' => 'required',
         'tupoksi' => 'nullable',
         'pengalaman_training' => 'nullable',
-        'sertifikasi' => 'nullable',
+        'sertifikasi' => 'required',
     ];
 
     static $message = [
@@ -45,10 +45,10 @@ class Sdmtik extends Model
         'status_reviu_pegawai.required' => 'Status Reviu Pegawai harus dipilih.',
         'alasan_pindah.nullable' => 'Alasan pindah harus diisi.',
         'pendidikan_terakhir.nullable' => 'Pendidikan terakhir harus diisi.',
-        'kompetensi_pekerjaan.nullable' => 'Kompetensi Pekerjaan harus diisi.',
+        'kompetensi_pekerjaan.required' => 'Kompetensi Pekerjaan harus diisi.',
         'tupoksi.nullable' => 'TUPOKSI harus diisi.',
         'pengalaman_training.nullable' => 'Pengalaman Training harus diisi.',
-        'sertifikasi.nullable' => 'Sertifikasi harus diisi.',
+        'sertifikasi.required' => 'Sertifikasi harus diisi.',
     ];
 
     

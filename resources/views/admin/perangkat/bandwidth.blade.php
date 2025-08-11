@@ -24,22 +24,21 @@
                                 <th class="text-center">Jumlah pemasangan</th>
                                 <th class="text-center">Alasan pengadaan</th>
                                 <th class="text-center">Status Reviu</th>
-                                <th class="text-center">Penyesuaian operasional</th>
-                                <th class="text-center">Aksi</th>
+                                {{-- <th class="text-center">Penyesuaian operasional</th> --}}
+                                <th class="text-center" width="100px">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($list as $bandwidth)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $bandwidth->opd->nama ?? '-' }}</td>
-                                    <td>{{ $bandwidth->bandwidth_nama_jaringan }}</td>
-                                    <td>{{ $bandwidth->bandwidth_mbps }}</td>
-                                    <td>{{ $bandwidth->bandwidth_jumlah_pemasangan }}</td>
-                                    <td>{{ $bandwidth->bandwidth_alasan_pengadaan ?? '-' }}</td>
-                                    <td>{{ $bandwidth->bandwidth_status_reviu }}</td>
-                                    <td>{{ $bandwidth->bandwidth_penyesuaian_operasional ?? '-' }}</td>
-                            
+                                    <td class="text-left">{{ $bandwidth->opd->nama ?? '-' }}</td>
+                                    <td class="text-left">{{ $bandwidth->bandwidth_nama_jaringan }}</td>
+                                    <td class="text-left">{{ $bandwidth->bandwidth_mbps }}</td>
+                                    <td class="text-left">{{ $bandwidth->bandwidth_jumlah_pemasangan }}</td>
+                                    <td class="text-left">{{ Str::limit($bandwidth->bandwidth_alasan_pengadaan ?? '-', 20) }}</td>
+                                    <td class="text-center">{{ $bandwidth->bandwidth_status_reviu }}</td>
+                                    {{-- <td class="text-left">{{ $bandwidth->bandwidth_penyesuaian_operasional ?? '-' }}</td> --}}
                                     <td class="text-center">
                                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah"
                                             wire:click="editData({{ $bandwidth->id }})">

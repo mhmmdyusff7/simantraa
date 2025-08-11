@@ -24,8 +24,6 @@
 </head>
 
 <body class="antialiased ">
-    
-
      {{ $slot }}
     <script src="{{ asset('public/assets/js/jquery-3.7.1.js') }}"></script>
     <script src="{{ asset('public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>

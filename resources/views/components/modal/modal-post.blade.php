@@ -14,7 +14,6 @@
                     {{ $slot }}
                 </div>
                 <div class="modal-footer">
-                     
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="resetForm">BATAL</button>
                     <button wire:click="simpanData" type="button" class="btn btn-primary" id="savemodal">{{ $btnTitle ?? 'SIMPAN' }}
                     </button>

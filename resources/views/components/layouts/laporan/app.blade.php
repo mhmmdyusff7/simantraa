@@ -8,6 +8,7 @@
     <!--Tailwind css-->
        <link rel="stylesheet" href="{{ asset('public/assets/css/tailwind.css') }}">
 </head>
+{{-- onload="window.print()" --}}
 <body class="container_laporan-body" onload="window.print()">
     {{ $slot }}
 </body>

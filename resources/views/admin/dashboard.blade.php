@@ -1,92 +1,99 @@
 <div>
-    <div class="sectioncontent-header flex flex-col md:flex-row justify-start md:justify-between ">
-        <h2 class="sectioncontentheader-title">Dashboard </h2>
-        <div class="row">
-            <div class="col-md-6">
-                <x-input.select_live model="filterOpd" label="Filter Opd">
-                    <option value="">-- Semua data --</option>
-                    @foreach ($dataOpd as $opd)
-                        <option value="{{ $opd->id }}">{{ $opd->nama }}</option>
-                    @endforeach
-                </x-input.select_live>
-            </div>
-            <div class="col-md-6">
-                <x-input.select_live model="filterKategori" label="Filter Kategori">
-                    <option value="">-- Semua data --</option>
-                    @foreach ($listKategori as $kategori)
-                        <option value="{{ $kategori }}">{{ $kategori }}</option>
-                    @endforeach
-                </x-input.select_live>
-            </div>
+    {{-- Header dan Filter --}}
+    <div class="sectioncontent-header flex flex-col md:flex-row justify-start md:justify-between mb-4">
+        <h2 class="sectioncontentheader-title mb-2 md:mb-0">Dashboard</h2>
+        <div class="flex space-x-4">
+            {{-- Filter OPD --}}
+            <x-input.select_live model="filterOpd" label="Filter Opd">
+                <option value="">-- Semua OPD --</option>
+                @foreach ($dataOpd as $opd)
+                    <option value="{{ $opd->id }}">{{ $opd->nama }}</option>
+                @endforeach
+            </x-input.select_live>
+
+            {{-- Filter Kategori --}}
+            <x-input.select_live model="filterKategori" label="Filter Kategori">
+                <option value="">-- Semua Kategori --</option>
+                @foreach ($listKategori as $kategori)
+                    <option value="{{ $kategori }}">{{ $kategori }}</option>
+                @endforeach
+            </x-input.select_live>
+
+             <x-input.select_live model="jenisChart" label="Jenis Chart">
+                <option value="donut">Donut Chart</option>
+                <option value="pie">Pie Chart</option>
+              
+            </x-input.select_live>
         </div>
     </div>
+
+
     <div class="row">
-        <div>
-            <div class="bg-white rounded-md custom-shadow">
+        {{-- Box Umur Perangkat --}}
+        <div class="col-md-6 mb-4">
+            <div class="bg-white rounded-md shadow p-4">
+                <h2 class="text-lg font-medium mb-4 text-center">
+                    Indikator Umur {{ $filterKategori ?? 'Semua Perangkat' }} {{ $labelOpd }}
+                </h2>
+
+                <ul class="space-y-2">
+                    <li class="flex justify-between">
+                        <span class="text-red-500 font-semibold">> 5 Tahun</span>
+                        <span class="font-bold">{{ $umur_perangkat['lebih_5_tahun'] ?? 0 }}</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-yellow-500 font-semibold">1 - 5 Tahun</span>
+                        <span class="font-bold">{{ $umur_perangkat['antara_1_5_tahun'] ?? 0 }}</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-green-500 font-semibold">< 1 Tahun</span>
+                        <span class="font-bold">{{ $umur_perangkat['kurang_1_tahun'] ?? 0 }}</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-slate-500 font-semibold">TOTAL PERANGKAT</span>
+                        <span class="font-bold">{{ $total_perangkat }}</span>
+                    </li>
+                </ul>
             </div>
         </div>
+
+        {{-- Box Status Perangkat --}}
         <div class="col-md-6">
-            <div class="bg-white rounded-md custom-shadow">
-                <div class="p-4">
-                    <h2>Indikator {{ $filterKategori ?? 'Semua Kategori' }} {{ $labelFilter ?? 'Opd' }}</h2>
-                </div>
-                <div class="px-4 pb-4">
-                    <ul class="list-indikator-jaringan">
-                        <li>
-                            <ul>
-                                <li>
-                                    <div class="indicator-box">
-                                        <div class="indicator-bar">
-                                            <div class="indicator-bar-line h-[{{ $jaringanlebih5tahun }}%] bg-rose-500">
-                                                {{ $jaringanlebih5tahun }} %</div>
-                                        </div>
-                                        <span> > 5 Tahun</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="indicator-box">
-                                        <div class="indicator-bar">
-                                            <div
-                                                class="indicator-bar-line h-[{{ $jaringan1sampai5tahun }}%] bg-yellow-500">
-                                                {{ $jaringan1sampai5tahun }} %</div>
-                                        </div>
-                                        <span>1 - 5 Tahun</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="indicator-box">
-                                        <div class="indicator-bar">
-                                            <div
-                                                class="indicator-bar-line h-[{{ $jaringankurang1tahun }}%] bg-green-500">
-                                                {{ $jaringankurang1tahun }} %</div>
-                                        </div>
-                                        <span>
-                                            < 1 Tahun</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="indicator-box">
-                                        <div class="indicator-bar">
-                                            <div class="indicator-bar-line h-[90%] bg-sky-500">10</div>
-                                        </div>
-                                        <span>Digunakan</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="indicator-box">
-                                        <div class="indicator-bar">
-                                            <div class="indicator-bar-line h-[70%] bg-indigo-500">9</div>
-                                        </div>
-                                        <span>Tidak digunakan</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+            <div class="bg-white rounded-md shadow p-4">
+                <h2 class="text-lg font-medium mb-4 text-center">
+                    Indikator Status {{ $filterKategori ?? 'Semua Perangkat' }} {{ $labelOpd }}
+                </h2>
+                
+                <div id="chart"></div>
+
+                <ul class="space-y-2 mt-4">
+                    <li class="flex justify-between">
+                        <span class="text-red-500 font-semibold">Rusak Berat</span>
+                        <span class="font-bold">
+                            {{ $status_perangkat['rusak_berat'] ?? 0 }} 
+                            ({{ $total_perangkat > 0 ? round(($status_perangkat['rusak_berat']/$total_perangkat)*100, 1) : 0 }}%)
+                        </span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-green-500 font-semibold">Baik</span>
+                        <span class="font-bold">
+                            {{ $status_perangkat['baik'] ?? 0 }}
+                            ({{ $total_perangkat > 0 ? round(($status_perangkat['baik']/$total_perangkat)*100, 1) : 0 }}%)
+                        </span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-yellow-500 font-semibold">Perlu Diperbaiki</span>
+                        <span class="font-bold">
+                            {{ $status_perangkat['perlu_diperbaiki'] ?? 0 }}
+                            ({{ $total_perangkat > 0 ? round(($status_perangkat['perlu_diperbaiki']/$total_perangkat)*100, 1) : 0 }}%)
+                        </span>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 
-
+    @push('js')
+        <script src="{{ asset('public/node_modules/apexcharts/dist/apexcharts.min.js') }}"></script>
+    @endpush
 </div>

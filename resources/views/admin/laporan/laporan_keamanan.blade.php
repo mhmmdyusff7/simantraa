@@ -7,32 +7,35 @@
     <div class="dooted_sm"></div>
     <table>
         <thead>
-            <tr>
+            <>
                 <th class="text-center">No.</th>
                 <th class="text-center">Nama OPD</th>
-                <th class="text-center">Nama Perangkat</th>
-                <th class="text-center">Jumlah</th>
-                <th class="text-center">Status Reviu</th>
-                <th class="text-center">Alasan Tidak Digunakan</th>
-                <th class="text-center">Kepemilikan</th>
-                <th class="text-center">Pengelola</th>
+                <th class="text-center">Tanggal Pembelian</th>
+                <th class="text-center">Kode Perangkat Keamanan</th>
+                <th class="text-center">Nama Perangkat Keamanan</th>
+                <th class="text-center">Spesifikasi</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Nama Ruangan</th>
+                <th class="text-center">Penanggung Jawab</th>
+               
             </tr>
         </thead>
         <tbody>
             @forelse ($listKeamanan as $perangkat_keamanan)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
-                    <td>{{ $perangkat_keamanan->opd->nama ?? '-' }}</td>
-                    <td>{{ $perangkat_keamanan->nama_perangkat_keamanan }}</td>
-                    <td>{{ $perangkat_keamanan->keamanan_jumlah_perangkat }}</td>
-                    <td>{{ $perangkat_keamanan->keamanan_status_reviu }}</td>
-                    <td>{{ $perangkat_keamanan->keamanan_alasan_tidakdigunakan ?: '-' }}</td>
-                    <td>{{ $perangkat_keamanan->keamanan_status_kepemilikan}}</td>
-                    <td>{{ $perangkat_keamanan->keamanan_pengelola}}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->opd->nama }}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->tanggal_pembelian_keamanan }}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->kode_keamanan }}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->nama_keamanan }}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->spesifikasi_keamanan }}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->status_keamanan }}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->nama_ruangan_keamanan }}</td>
+                    <td class="text-center">{{ $perangkat_keamanan->penanggung_jawab_keamanan }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td>Tidak ada data</td>
+                    <td colspan="9" class="text-center">Tidak ada data</td>
                 </tr>
             @endforelse
         </tbody>

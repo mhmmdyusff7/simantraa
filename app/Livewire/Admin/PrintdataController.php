@@ -52,7 +52,7 @@ class PrintdataController extends Component
             // Jika bagian tidak valid, berikan pesan error dan fallback ke default.
             session()->flash('error', 'Bagian cetak tidak valid. Menampilkan data OPD.');
             Log::warning("Bagian cetak tidak valid diminta: '{$section}'. Fallback ke 'opd'.");
-            $this->activeSection = 'opd'; // Reset ke default
+            $this->activeSection = 'opd'; // Reset ke d;efault
             $this->loadSectionData('opd'); // Muat data default
         }
     }

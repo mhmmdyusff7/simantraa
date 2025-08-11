@@ -16,47 +16,34 @@ class PerangkatjaringanController extends Component
     public $limit_paginations = 5;
     public $pagination = "default";
     public $cari;
-
     // === PERANGKAT JARINGAN ===
     public $id;
     public $opd_id;
     public $kategori_perangkat = 'Perangkat Jaringan';
-    public $nama_perangkat_jaringan;
-    public $jaringan_lebihdari5_tahun;
-    public $jaringan_satusampai5_tahun;
-    public $jaringan_kurangdari1_tahun;
-    public $jaringan_jumlah;
-    public $jaringan_digunakan;
-    public $jaringan_tidakdigunakan;
-    public $jaringan_alasan_tidakdigunakan;
+    public $tanggal_pembelian_jaringan;
+    public $kode_jaringan;
+    public $nama_jaringan;
+    public $spesifikasi_jaringan;
+    public $status_jaringan;
+    public $nama_ruangan_jaringan;
+    public $penanggung_jawab_jaringan;
     // Simpan or update data
     public function simpanData()
     {
-
-        // Validasi alasan tidak digunakan
-        if ((int) $this->jaringan_tidakdigunakan > 0) {
-            $this->validate([
-                'jaringan_alasan_tidakdigunakan' => 'required',
-            ], [
-                'jaringan_alasan_tidakdigunakan.required' => 'Wajib diisi',
-                
-            ]);
-        }
-
         $this->validate(Perangkat::$rulesjaringan, Perangkat::$messagesjaringan);
-        $updateorCreate = Perangkat::updateOrCreate(
+        $updateorCreate =Perangkat::updateOrCreate(
             ['id' => $this->id], // Ini adalah array pertama: Kondisi pencarian
             [ // Ini adalah array kedua: Data yang akan dibuat atau diperbarui
                 'opd_id' => $this->opd_id,
                 'kategori_perangkat' => $this->kategori_perangkat,
-                'nama_perangkat_jaringan' => $this->nama_perangkat_jaringan,
-                'jaringan_lebihdari5_tahun' => (int)$this->jaringan_lebihdari5_tahun,
-                'jaringan_satusampai5_tahun' => (int)$this->jaringan_satusampai5_tahun,
-                'jaringan_kurangdari1_tahun' => (int)$this->jaringan_kurangdari1_tahun,
-                'jaringan_jumlah' => (int)$this->jaringan_jumlah,
-                'jaringan_digunakan' => (int)$this->jaringan_digunakan,
-                'jaringan_tidakdigunakan' => (int)$this->jaringan_tidakdigunakan,
-                'jaringan_alasan_tidakdigunakan' => $this->jaringan_alasan_tidakdigunakan,
+                'tanggal_pembelian_jaringan' => $this->tanggal_pembelian_jaringan,
+                'kode_jaringan' => $this->kode_jaringan,
+                'nama_jaringan' => $this->nama_jaringan,
+                'spesifikasi_jaringan' => $this->spesifikasi_jaringan,
+                'status_jaringan' => $this->status_jaringan,
+                'nama_ruangan_jaringan' => $this->nama_ruangan_jaringan,
+                'penanggung_jawab_jaringan' => $this->penanggung_jawab_jaringan
+            
             ]
         );
 
@@ -78,16 +65,13 @@ class PerangkatjaringanController extends Component
         $this->id = $Perangkat->id;
         $this->opd_id = $Perangkat->opd_id;
         $this->kategori_perangkat = $Perangkat->kategori_perangkat;
-
-        // Jaringan
-        $this->nama_perangkat_jaringan = $Perangkat->nama_perangkat_jaringan;
-        $this->jaringan_lebihdari5_tahun = $Perangkat->jaringan_lebihdari5_tahun;
-        $this->jaringan_satusampai5_tahun = $Perangkat->jaringan_satusampai5_tahun;
-        $this->jaringan_kurangdari1_tahun = $Perangkat->jaringan_kurangdari1_tahun;
-        $this->jaringan_jumlah = $Perangkat->jaringan_jumlah;
-        $this->jaringan_digunakan = $Perangkat->jaringan_digunakan;
-        $this->jaringan_tidakdigunakan = $Perangkat->jaringan_tidakdigunakan;
-        $this->jaringan_alasan_tidakdigunakan = $Perangkat->jaringan_alasan_tidakdigunakan;    
+        $this->tanggal_pembelian_jaringan = $Perangkat->tanggal_pembelian_jaringan;
+        $this->kode_jaringan = $Perangkat->kode_jaringan;
+        $this->nama_jaringan = $Perangkat->nama_jaringan;
+        $this->spesifikasi_jaringan = $Perangkat->spesifikasi_jaringan;
+        $this->status_jaringan = $Perangkat->status_jaringan;
+        $this->nama_ruangan_jaringan = $Perangkat->nama_ruangan_jaringan;
+        $this->penanggung_jawab_jaringan = $Perangkat->penanggung_jawab_jaringan;    
     }
 
     public function hapusData(Perangkat $id)
@@ -105,79 +89,53 @@ class PerangkatjaringanController extends Component
     #[Title('Perangkat Jaringan')]
     public function render()
     {
-        // Hitung otomatis jaringan
-        if ((int) $this->jaringan_lebihdari5_tahun && (int) $this->jaringan_satusampai5_tahun && (int) $this->jaringan_kurangdari1_tahun) {
-            $this->jaringan_jumlah = $this->calculatePlus((int) $this->jaringan_lebihdari5_tahun, (int) $this->jaringan_satusampai5_tahun, (int) $this->jaringan_kurangdari1_tahun);
-            $this->jaringan_tidakdigunakan = $this->calculateMinus((int) $this->jaringan_jumlah, (int) $this->jaringan_digunakan);
-        }
-
         $query = Perangkat::with('opd')
-    ->where('kategori_perangkat', '=', 'Perangkat Jaringan')
-    ->orderBy('id', 'asc');
-
-if (!empty($this->cari)) {
-    $query->where(function ($q) {
-        $q->where('nama_perangkat_jaringan', 'like', "%{$this->cari}%")
-            ->orWhere('jaringan_lebihdari5_tahun', 'like', "%{$this->cari}%")
-            ->orWhere('jaringan_satusampai5_tahun', 'like', "%{$this->cari}%")
-            ->orWhere('jaringan_kurangdari1_tahun', 'like', "%{$this->cari}%")
-            ->orWhere('jaringan_jumlah', 'like', "%{$this->cari}%")
-            ->orWhere('jaringan_digunakan', 'like', "%{$this->cari}%")
-            ->orWhere('jaringan_tidakdigunakan', 'like', "%{$this->cari}%")
-            ->orWhere('jaringan_alasan_tidakdigunakan', 'like', "%{$this->cari}%")
-            ->orWhereHas('opd', function ($q2) {
-                $q2->where('nama', 'like', "%{$this->cari}%");
+            ->where('kategori_perangkat', '=', 'Perangkat Jaringan')
+            ->orderBy('id', 'asc');
+        if (!empty($this->cari)) {
+            $query->where(function ($q) {
+                $q->where('kode_jaringan', 'like', "%{$this->cari}%")
+                    ->orWhere('nama_jaringan', 'like', "%{$this->cari}%")
+                    ->orWhere('tanggal_pembelian_jaringan', 'like', "%{$this->cari}%")
+                    ->orWhere('spesifikasi_jaringan', 'like', "%{$this->cari}%")
+                    ->orWhere('status_jaringan', 'like', "%{$this->cari}%")
+                    ->orWhere('nama_ruangan_jaringan', 'like', "%{$this->cari}%")
+                    ->orWhere('penanggung_jawab_jaringan', 'like', "%{$this->cari}%")
+                    ->orWhereHas('opd', function ($q2) {
+                        $q2->where('nama', 'like', "%{$this->cari}%");
+                    });
             });
-    });
-}
-
-
+        }
         $data['list_opd'] = Opd::get();
         $data['list'] = $query->paginate($this->limit_paginations);
-
         return view('admin.perangkat.perangkat_jaringan', $data);
     }
-
-
     public function updatingCari()
     {
-        $this->resetData();
+        $this->resetPage();
     }
     public function updatingLimitPaginations()
     {
-        $this->resetData();
+        $this->resetPage();
     }
     public function resetForm()
     {
         $this->resetData();
     }
-
-    // Reset semua properti setelah simpan/edit
+    // data yang direset di form
     private function resetData()
     {
         $this->id = null; 
         $this->opd_id = null;
-        $this->nama_perangkat_jaringan = '';
-        $this->jaringan_lebihdari5_tahun = '';
-        $this->jaringan_satusampai5_tahun = '';
-        $this->jaringan_kurangdari1_tahun = '';
-        $this->jaringan_jumlah = '';
-        $this->jaringan_digunakan = '';
-        $this->jaringan_tidakdigunakan = '';
-        $this->jaringan_alasan_tidakdigunakan = '';
+        $this->tanggal_pembelian_jaringan = '';
+        $this->kode_jaringan = '';
+        $this->nama_jaringan = '';
+        $this->spesifikasi_jaringan = '';
+        $this->status_jaringan = '';
+        $this->nama_ruangan_jaringan = '';
+        $this->penanggung_jawab_jaringan = '';
         $this->resetErrorBag();
     }
-
-    private function calculatePlus($a, $b, $c)
-    {
-        return  $a + $b + $c;
-    }
-    private function calculateMinus($a, $b)
-    {
-        return  $a - $b;
-    }
-
-
 
     private function notifSuccess($pesan)
     {
@@ -205,3 +163,4 @@ if (!empty($this->cari)) {
         ");
     }
 }
+

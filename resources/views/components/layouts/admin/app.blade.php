@@ -37,7 +37,7 @@
     <script src="{{ asset('public/node_modules/metismenu/dist/metisMenu.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="{{ asset('public/assets/js/app.js') }}"></script>
-    
+
     @stack('js')
 </body>
 

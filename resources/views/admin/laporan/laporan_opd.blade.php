@@ -19,14 +19,14 @@
             @forelse ($listOpd as $opd)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
-                    <td class="text-left">{{ $opd->nama }}</td>
-                    <td class="text-left">{{ $opd->telepon }}</td>
-                    <td class="text-left">{{ $opd->email }}</td>
-                    <td class="text-left">{{ $opd->alamat }}</td>
+                    <td class="text-center">{{ $opd->nama }}</td>
+                    <td class="text-center">{{ $opd->telepon }}</td>
+                    <td class="text-center">{{ $opd->email }}</td>
+                    <td class="text-center">{{ $opd->alamat }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td>Tidak ada data</td>
+                    <td colspan="5" class="text-center">Data Tidak Ditemukan</td>
                 </tr>
             @endforelse
         </tbody>

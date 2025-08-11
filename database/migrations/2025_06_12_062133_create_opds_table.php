@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('telepon');
             $table->string('email');
             $table->string('alamat');
-            $table->string('original_password');
-            $table->string('encrypt_password');
+            $table->string('password');
             $table->timestamps();
             $table->softDeletes();
         });

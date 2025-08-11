@@ -35,8 +35,8 @@
 
                 </div>
             </div>
-            <div class="page-auth-footer">
-                <button type="submit" wire:click="login">SIGN-IN</button>
+            <div class="page-auth-tombol">
+                <button class="btn btn-success" wire:click="login">Login</button>
             </div>
         </div>
 </div>

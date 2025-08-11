@@ -24,33 +24,29 @@ return new class extends Migration
             ])->nullable();
 
             // === PERANGKAT JARINGAN ===
-            $table->string('nama_perangkat_jaringan')->nullable();
-            $table->integer('jaringan_lebihdari5_tahun')->nullable();
-            $table->integer('jaringan_satusampai5_tahun')->nullable();
-            $table->integer('jaringan_kurangdari1_tahun')->nullable();
-            $table->integer('jaringan_jumlah')->nullable();
-            $table->integer('jaringan_digunakan')->nullable();
-            $table->integer('jaringan_tidakdigunakan')->nullable();
-            $table->longText('jaringan_alasan_tidakdigunakan')->nullable();
-
+            $table->date('tanggal_pembelian_jaringan')->required();
+            $table->string('kode_jaringan')-> required();
+            $table->string('nama_jaringan')-> required();
+            $table->string('spesifikasi_jaringan')-> required();
+            $table->enum('status_jaringan', ['Baik', 'Perlu Diperbaiki', 'Rusak Berat'])-> required();
+            $table->string('nama_ruangan_jaringan')-> required();
+            $table->string('penanggung_jawab_jaringan')-> required();
             // === PERANGKAT KERAS ===
-            $table->string('nama_perangkat_keras')->nullable();
-            $table->integer('keras_lebihdari5_tahun')->nullable();
-            $table->integer('keras_satusampai5_tahun')->nullable();
-            $table->integer('keras_kurangdari1_tahun')->nullable();
-            $table->integer('keras_jumlah')->nullable();
-            $table->integer('keras_digunakan')->nullable();
-            $table->integer('keras_tidakdigunakan')->nullable();
-            $table->longText('keras_alasan_tidakdigunakan')->nullable();
-
+            $table->date('tanggal_pembelian_keras')-> required();
+            $table->string('kode_keras')-> required();
+            $table->string('nama_keras')-> required();
+            $table->string('spesifikasi_keras')-> required();
+            $table->enum('status_keras', ['Baik', 'Perlu Diperbaiki', 'Rusak Berat'])-> required();
+            $table->string('nama_ruangan_keras')-> required();
+            $table->string('penanggung_jawab_keras')-> required();
             // === PERANGKAT KEAMANAN ===
-            $table->string('nama_perangkat_keamanan')->nullable();
-            $table->integer('keamanan_jumlah_perangkat')->nullable();
-            $table->enum('keamanan_status_reviu', ['Digunakan', 'Tidak Digunakan'])->nullable();
-            $table->longText('')->nullable();
-            $table->string('keamanan_status_kepemilikan')->nullable();
-            $table->string('keamanan_pengelola')->nullable();
-
+            $table->date('tanggal_pembelian_keamanan')-> required();
+            $table->string('kode_keamanan')-> required();
+            $table->string('nama_keamanan')-> required();
+            $table->string('spesifikasi_keamanan')-> required();
+            $table->enum('status_keamanan', ['Baik', 'Perlu Diperbaiki', 'Rusak Berat'])-> required();
+            $table->string('nama_ruangan_keamanan')-> required();
+            $table->string('penanggung_jawab_keamanan')-> required();
             // === BANDWIDTH ===
             $table->string('bandwidth_nama_jaringan')->nullable();
             $table->string('bandwidth_mbps')->nullable();
@@ -58,12 +54,10 @@ return new class extends Migration
             $table->string('bandwidth_alasan_pengadaan')->nullable();
             $table->enum('bandwidth_status_reviu', ['Digunakan', 'Tidak Digunakan'])->nullable();
             $table->longText('bandwidth_penyesuaian_operasional')->nullable();
-
             $table->timestamps();
             $table->softDeletes(); // fitur soft delete
         });
     }
-
     public function down(): void
     {
         Schema::dropIfExists('tb_perangkat');

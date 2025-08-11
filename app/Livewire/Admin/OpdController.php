@@ -2,83 +2,87 @@
 
 namespace App\Livewire\Admin;
 
+use App\Imports\OpdImport;
 use Livewire\Attributes\Title;
 use App\Models\Opd;
 use Livewire\{
     Component,
     WithoutUrlPagination,
-    WithPagination
+    WithPagination,
+    WithFileUploads
 };
+use Maatwebsite\Excel\Facades\Excel; // Tambahkan baris ini
 
 class OpdController extends Component
 {
-    use WithPagination, WithoutUrlPagination; 
+    use WithPagination, WithoutUrlPagination,WithFileUploads; 
     public $id,$nama,$telepon,$email,$password,$alamat;
     public $cari;
     public $limit_paginations = 5; // default nilai
 
     public $pagination = "default";
+    public $file_excel;
 
-
-  
-
-    public function simpanData(){
-      
+//   fungsi import excel
+    public function importExcel(){
         
-        if ($this->id == null) {
-            $validated = $this->validate(Opd::$rules,Opd::$message);
-            $opd = new Opd();
-            $opd->nama = $this->nama;
-            $opd->telepon = $this->telepon;    
-            $opd->email = $this->email;
-            $opd->alamat= $this->alamat;
-            $opd->password = bcrypt($this->password);
-            $simpanPengguna = $opd->save();
-            if($simpanPengguna){
-                $this->resetPage();
-                $this->notifSuccess('Data berhasil disimpan');
-            }else{
-                $this->resetPage();
-                $this->notifError('Data gagal disimpan');
-            }
-        }else{
-            $opd = Opd::findOrFail($this->id);
-            if($this->password == null){
-                $opd->nama = $this->nama;
-                $opd->telepon = $this->telepon;    
-                $opd->email = $this->email;
-                $opd->alamat= $this->alamat;
-                $simpanPengguna = $opd->update();
-                if($simpanPengguna){
-                    $this->resetPage();
-                    $this->notifSuccess('Data berhasil diupdate');
-                }else{
-                    $this->resetPage();
-                    $this->notifError('Data gagal diupdate');
-                }
-            }else{
-                $opd->nama = $this->nama;
-                $opd->telepon = $this->telepon;    
-                $opd->email = $this->email;
-                $opd->alamat = $this->alamat;
-                $opd->password = bcrypt($this->password);
-                $simpanPengguna = $opd->update();
-                if($simpanPengguna){
-                    $this->resetPage();
-                    $this->notifSuccess('Data berhasil diupdate');
-                }else{
-                    $this->resetPage();
-                    $this->notifError('Data gagal diupdate');
-                }
-            }
+    $this->validate([
+        'file_excel' => 'required|file|max:10000',
+    ],[
+        'file_excel.required' => 'Silahkan pilih file excel',
+        'file_excel.file' => 'Silahkan pilih file excel yang valid',
+        'file_excel.max' => 'File excel tidak boleh lebih dari 10MB',
+    ]);
+    $file = $this->file_excel;
+    Excel::import(new OpdImport , $file);
+    $this->resetPage();
+    $this->notifSuccess('Data berhasil diimpor');
+}
+    public function simpanData(){
+
+         
+        $data = [
+            'nama' => $this->nama,
+            'telepon' => $this->telepon,
+            'email' => $this->email,
+            'alamat' => $this->alamat,
+        ];
+
+        if($this->id != null){
+            $this->validate([
+                'telepon' => 'numeric',
+            ],[
+                'telepon.numeric' => 'Nomor telepon harus berupa angka',
+            ]);
+             // hanya update password jika id tidak null    
+        }
+        $this->validate(Opd::$rules, Opd::$message);
+
+        if ($this->password) {
+            $data['password'] = bcrypt($this->password);
         }
 
+
+        // Simpan atau update data
+        $opd = Opd::updateOrCreate(
+            ['id' => $this->id],
+            $data
+        );
+
+        if ($opd) {
+            $this->resetPage();
+            $this->notifSuccess($this->id ? 'Data berhasil diupdate' : 'Data berhasil disimpan');
+        } else {
+            $this->resetPage();
+            $this->notifError($this->id ? 'Data gagal diupdate' : 'Data gagal disimpan');
+        }
+
+        $this->resetData();
+        
         
     }
     // ketika klik batal di btn data akan kereset
-   public function resetForm() { $this->resetData(); }
-  
-
+    public function resetForm() { $this->resetData(); }
     public function editData($id){
         $opd = Opd::findOrFail($id);
         $this->id = $opd->id;
@@ -166,3 +170,7 @@ class OpdController extends Component
 
 
 }
+
+
+
+

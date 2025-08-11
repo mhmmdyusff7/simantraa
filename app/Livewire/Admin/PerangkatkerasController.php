@@ -16,63 +16,37 @@ class PerangkatkerasController extends Component
     public $limit_paginations = 5;
     public $pagination = "default";
     public $cari;
-
     // === PERANGKAT keras ===
     public $id;
     public $opd_id;
-    public $kategori_perangkat = 'Perangkat keras';
-    public $nama_perangkat_keras;
-    public $keras_lebihdari5_tahun;
-    public $keras_satusampai5_tahun;
-    public $keras_kurangdari1_tahun;
-    public $keras_jumlah;
-    public $keras_digunakan;
-    public $keras_tidakdigunakan;
-    public $keras_alasan_tidakdigunakan;
-
-    // === PERANGKAT KEAMANAN ===
-    public $nama_perangkat_keamanan = null;
-    public $keamanan_jumlah_perangkat = null;
-    public $keamanan_status_reviu = null;
-    public $keamanan_alasan_tidakdigunakan = null;
-    public $keamanan_status_kepemilikan = null;
-    public $keamanan_pengelola = null;
-
-    // === BANDWIDTH ===
-    public $bandwidth_nama_keras = null;
-    public $bandwidth_mbps = null;
-    public $bandwidth_jumlah_pemasangan = null;
-    public $bandwidth_alasan_pengadaan = null;
-    public $bandwidth_status_reviu = null;
-    public $bandwidth_penyesuaian_operasional = null;
-
+    public $kategori_perangkat = 'Perangkat Keras';
+    public $tanggal_pembelian_keras;
+    public $kode_keras;
+    public $nama_keras;
+    public $spesifikasi_keras;
+    public $status_keras;
+    public $nama_ruangan_keras;
+    public $penanggung_jawab_keras;
     // Simpan or update data
     public function simpanData()
+    
     {
-
-        // Validasi alasan tidak digunakan
-        if ((int) $this->keras_tidakdigunakan > 0) {
-            $this->validate([
-                'keras_alasan_tidakdigunakan' => 'required',
-            ], [
-                'keras_alasan_tidakdigunakan.required' => 'Wajib diisi',
-            ]);
-        }
-
+        
+        
         $this->validate(Perangkat::$ruleskeras, Perangkat::$messageskeras);
-        $updateorCreate = Perangkat::updateOrCreate(
-            ['id' => $this->id], 
-            [ 
+        $updateorCreate =Perangkat::updateOrCreate(
+            ['id' => $this->id], // Ini adalah array pertama: Kondisi pencarian
+            [ // Ini adalah array kedua: Data yang akan dibuat atau diperbarui
                 'opd_id' => $this->opd_id,
                 'kategori_perangkat' => $this->kategori_perangkat,
-                'nama_perangkat_keras' => $this->nama_perangkat_keras,
-                'keras_lebihdari5_tahun' => (int)$this->keras_lebihdari5_tahun,
-                'keras_satusampai5_tahun' => (int)$this->keras_satusampai5_tahun,
-                'keras_kurangdari1_tahun' => (int)$this->keras_kurangdari1_tahun,
-                'keras_jumlah' => (int)$this->keras_jumlah,
-                'keras_digunakan' => (int)$this->keras_digunakan,
-                'keras_tidakdigunakan' => (int)$this->keras_tidakdigunakan,
-                'keras_alasan_tidakdigunakan' => $this->keras_alasan_tidakdigunakan,
+                'tanggal_pembelian_keras' => $this->tanggal_pembelian_keras,
+                'kode_keras' => $this->kode_keras,
+                'nama_keras' => $this->nama_keras,
+                'spesifikasi_keras' => $this->spesifikasi_keras,
+                'status_keras' => $this->status_keras,
+                'nama_ruangan_keras' => $this->nama_ruangan_keras,
+                'penanggung_jawab_keras' => $this->penanggung_jawab_keras
+            
             ]
         );
 
@@ -84,9 +58,9 @@ class PerangkatkerasController extends Component
             // Jika data yang sudah ada diperbarui
             $this->notifSuccess('Data berhasil diupdate');
         }
-
         $this->resetData();
     }
+
 
     public function editData($id)
     {
@@ -94,16 +68,13 @@ class PerangkatkerasController extends Component
         $this->id = $Perangkat->id;
         $this->opd_id = $Perangkat->opd_id;
         $this->kategori_perangkat = $Perangkat->kategori_perangkat;
-
-        // keras
-        $this->nama_perangkat_keras = $Perangkat->nama_perangkat_keras;
-        $this->keras_lebihdari5_tahun = $Perangkat->keras_lebihdari5_tahun;
-        $this->keras_satusampai5_tahun = $Perangkat->keras_satusampai5_tahun;
-        $this->keras_kurangdari1_tahun = $Perangkat->keras_kurangdari1_tahun;
-        $this->keras_jumlah = $Perangkat->keras_jumlah;
-        $this->keras_digunakan = $Perangkat->keras_digunakan;
-        $this->keras_tidakdigunakan = $Perangkat->keras_tidakdigunakan;
-        $this->keras_alasan_tidakdigunakan = $Perangkat->keras_alasan_tidakdigunakan;    
+        $this->tanggal_pembelian_keras = $Perangkat->tanggal_pembelian_keras;
+        $this->kode_keras = $Perangkat->kode_keras;
+        $this->nama_keras = $Perangkat->nama_keras;
+        $this->spesifikasi_keras = $Perangkat->spesifikasi_keras;
+        $this->status_keras = $Perangkat->status_keras;
+        $this->nama_ruangan_keras = $Perangkat->nama_ruangan_keras;
+        $this->penanggung_jawab_keras = $Perangkat->penanggung_jawab_keras;    
     }
 
     public function hapusData(Perangkat $id)
@@ -118,83 +89,56 @@ class PerangkatkerasController extends Component
     }
 
     // Render data
-    #[Title('Perangkat Keras')]
+    #[Title('Perangkat keras')]
     public function render()
     {
-
-        // Hitung otomatis keras
-        if ((int) $this->keras_lebihdari5_tahun && (int) $this->keras_satusampai5_tahun && (int) $this->keras_kurangdari1_tahun) {
-            $this->keras_jumlah = $this->calculatePlus((int) $this->keras_lebihdari5_tahun, (int) $this->keras_satusampai5_tahun, (int) $this->keras_kurangdari1_tahun);
-            $this->keras_tidakdigunakan = $this->calculateMinus((int) $this->keras_jumlah, (int) $this->keras_digunakan);
-        }
-
         $query = Perangkat::with('opd')
-    ->where('kategori_perangkat', '=', 'Perangkat keras')
-    ->orderBy('id', 'desc');
-
-if (!empty($this->cari)) {
-    $query->where(function ($q) {
-        $q->where('nama_perangkat_keras', 'like', "%{$this->cari}%")
-            ->orWhere('keras_lebihdari5_tahun', 'like', "%{$this->cari}%")
-            ->orWhere('keras_satusampai5_tahun', 'like', "%{$this->cari}%")
-            ->orWhere('keras_kurangdari1_tahun', 'like', "%{$this->cari}%")
-            ->orWhere('keras_jumlah', 'like', "%{$this->cari}%")
-            ->orWhere('keras_digunakan', 'like', "%{$this->cari}%")
-            ->orWhere('keras_tidakdigunakan', 'like', "%{$this->cari}%")
-            ->orWhere('keras_alasan_tidakdigunakan', 'like', "%{$this->cari}%")
-            ->orWhereHas('opd', function ($q2) {
-                $q2->where('nama', 'like', "%{$this->cari}%");
+            ->where('kategori_perangkat', '=', 'Perangkat keras')
+            ->orderBy('id', 'asc');
+        if (!empty($this->cari)) {
+            $query->where(function ($q) {
+                $q->where('kode_keras', 'like', "%{$this->cari}%")
+                    ->orWhere('nama_keras', 'like', "%{$this->cari}%")
+                    ->orWhere('tanggal_pembelian_keras', 'like', "%{$this->cari}%")
+                    ->orWhere('spesifikasi_keras', 'like', "%{$this->cari}%")
+                    ->orWhere('status_keras', 'like', "%{$this->cari}%")
+                    ->orWhere('nama_ruangan_keras', 'like', "%{$this->cari}%")
+                    ->orWhere('penanggung_jawab_keras', 'like', "%{$this->cari}%")
+                    ->orWhereHas('opd', function ($q2) {
+                        $q2->where('nama', 'like', "%{$this->cari}%");
+                    });
             });
-    });
-}
-
-
+        }
         $data['list_opd'] = Opd::get();
         $data['list'] = $query->paginate($this->limit_paginations);
-
         return view('admin.perangkat.perangkat_keras', $data);
     }
-
-
     public function updatingCari()
     {
-        $this->resetData();
+        $this->resetPage();
     }
     public function updatingLimitPaginations()
     {
-        $this->resetData();
+        $this->resetPage();
     }
     public function resetForm()
     {
         $this->resetData();
     }
-
-    // Reset semua properti setelah simpan/edit
+    // data yang direset di form
     private function resetData()
     {
-        $this->id = null;   
+        $this->id = null; 
         $this->opd_id = null;
-        $this->nama_perangkat_keras = '';
-        $this->keras_lebihdari5_tahun = '';
-        $this->keras_satusampai5_tahun = '';
-        $this->keras_kurangdari1_tahun = '';
-        $this->keras_jumlah = '';
-        $this->keras_digunakan = '';
-        $this->keras_tidakdigunakan = '';
-        $this->keras_alasan_tidakdigunakan = '';
+        $this->tanggal_pembelian_keras = '';
+        $this->kode_keras = '';
+        $this->nama_keras = '';
+        $this->spesifikasi_keras = '';
+        $this->status_keras = '';
+        $this->nama_ruangan_keras = '';
+        $this->penanggung_jawab_keras = '';
         $this->resetErrorBag();
     }
-
-    private function calculatePlus($a, $b, $c)
-    {
-        return  $a + $b + $c;
-    }
-    private function calculateMinus($a, $b)
-    {
-        return  $a - $b;
-    }
-
-
 
     private function notifSuccess($pesan)
     {
@@ -222,3 +166,4 @@ if (!empty($this->cari)) {
         ");
     }
 }
+

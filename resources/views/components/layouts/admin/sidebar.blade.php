@@ -3,9 +3,14 @@
     $isDashboard = request()->is('admin/dashboard');
     $isDataOPD = request()->is('admin/data_opd');
     // Menu Manajemen Jaringan dan submenu-nya
-    $isDataPerangkat = request()->is('admin/perangkatjaringan')|| request()->is('admin/perangkatkeras') || request()->is('admin/perangkatkeamanan');
+    $isDataPerangkat =
+        request()->is('admin/perangkatjaringan') ||
+        request()->is('admin/perangkatkeras') ||
+        request()->is('admin/perangkatkeamanan');
     $isDataBandwidth = request()->is('admin/perangkatbandwidth');
     $isSdmtik = request()->is('admin/sdmtik');
+    $isProfile = request()->is('admin/profile');
+    $isPerangkatUmur = request()->is('admin/perangkat_umur');
 @endphp
 
 <aside class="sidebars">
@@ -14,8 +19,8 @@
             <img src="{{ asset('public/assets/img/yusuf.jpg') }}" alt="" class="w-full h-full">
         </div>
         <div class="user-caption">
-            <span class="name">Yusuf</span>
-            <span class="status">yusuf@gmail.com</span>
+            <span class="name">{{ Auth::user()->name }}</span>
+            <span class="status">{{ Auth::user()->email }}</span>
         </div>
     </div>
 
@@ -39,18 +44,14 @@
                 <span>Data Bandwidth</span>
             </a>
         </li>
-        <li class="{{ $isDataPerangkat? 'mm-active' : '' }}">
+
+        <li class="{{ $isDataPerangkat ? 'mm-active' : '' }}">
             <a href="#" class="has-arrow">
                 <i class="bi bi-hdd-stack"></i>
-                <span>Aset TIK</span>
+                <span>Perangkat Terlihat</span>
             </a>
             <ul class="submenu">
-                {{-- <li class="{{ request()->is('admin/perangkat') ? 'active' : '' }}">
-                    <a href="{{ url('admin/perangkat') }}">
-                        <i class="bi bi-router"></i>
-                        <span>Data Perangkat</span>
-                    </a>
-                </li> --}}
+
                 <li class="{{ request()->is('admin/perangkatjaringan') ? 'active' : '' }}">
                     <a href="{{ url('admin/perangkatjaringan') }}">
                         <i class="bi bi-router"></i>
@@ -70,18 +71,35 @@
                     </a>
                 </li>
             </ul>
+        <li class="{{ $isPerangkatUmur ? 'active' : '' }}">
+            <a href="{{ url('admin/perangkat_umur') }}">
+                <i class="bi bi-pci-card-network"></i>
+                <span>Usia Perangkat OPD</span>
+            </a>
         </li>
         <li class="{{ $isSdmtik ? 'active' : '' }}">
             <a href="{{ url('admin/sdmtik') }}">
-                <i class="bi bi-people"></i> {{-- ICON DIGANTI: sebelumnya kosong, sekarang bi-people --}}
+                <i class="bi bi-people"></i>
                 <span>Data SDM TIK</span>
             </a>
         </li>
+        <li class="{{ $isProfile ? 'active' : '' }}">
+            <a href="{{ url('admin/profile') }}">
+                <i class="bi bi-box-arrow-left"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+        
+
+        </li>
+
     </ul>
 </aside>
 
+
+
 @push('js')
-<script>
-    $("#metismenu").metisMenu();
-</script>
+    <script>
+        $("#metismenu").metisMenu();
+    </script>
 @endpush

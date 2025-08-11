@@ -100,6 +100,7 @@ class SdmtikController extends Component
         $this->tupoksi = '';
         $this->pengalaman_training = '';
         $this->sertifikasi = '';
+        $this->resetErrorBag(); 
     }
 
     public function editData($id){

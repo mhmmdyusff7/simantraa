@@ -22,13 +22,13 @@
             @forelse ($listBandwidth as $bandwidth)
                 <tr>
                     <td class="text-center">{{$loop->iteration }}</td>
-                    <td class="text-left">{{ $bandwidth->opd->nama }}</td>
-                    <td class="text-left">{{ $bandwidth->bandwidth_nama_jaringan }}</td>
-                    <td class="text-left">{{ $bandwidth->bandwidth_mbps }}</td>
-                    <td class="text-left">{{ $bandwidth->bandwidth_jumlah_pemasangan }}</td>
-                    <td class="text-left">{{ $bandwidth->bandwidth_alasan_pengadaan }}</td>
-                    <td class="text-left">{{ $bandwidth->bandwidth_status_reviu }}</td>
-                    <td class="text-left">{{ $bandwidth->bandwidth_penyesuaian_operasional }}</td>
+                    <td class="text-center">{{ $bandwidth->opd->nama }}</td>
+                    <td class="text-center">{{ $bandwidth->bandwidth_nama_jaringan }}</td>
+                    <td class="text-center">{{ $bandwidth->bandwidth_mbps }}</td>
+                    <td class="text-center">{{ $bandwidth->bandwidth_jumlah_pemasangan }}</td>
+                    <td class="text-center">{{ $bandwidth->bandwidth_alasan_pengadaan }}</td>
+                    <td class="text-center">{{ $bandwidth->bandwidth_status_reviu }}</td>
+                    <td class="text-center">{{ $bandwidth->bandwidth_penyesuaian_operasional }}</td>
                 </tr>
             @empty
                 <tr>
